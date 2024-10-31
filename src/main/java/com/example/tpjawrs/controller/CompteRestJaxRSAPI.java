@@ -13,23 +13,17 @@ import java.util.List;
 @Component
 @Path("/banque")
 public class CompteRestJaxRSAPI {
-
     @Autowired
     private CompteRepository compteRepository;
-
-    // READ: Récupérer tous les comptes
 
     @Path("/comptes")
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public CompteListWrapper getComptes() {
-        CompteListWrapper wrapper = new CompteListWrapper();
-        wrapper.setComptes(compteRepository.findAll());
-        return wrapper;
+        List<Compte> comptes = compteRepository.findAll();
+        return new CompteListWrapper(comptes);
     }
 
-
-    // READ: Récupérer un compte par ID
     @Path("/comptes/{id}")
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -37,7 +31,6 @@ public class CompteRestJaxRSAPI {
         return compteRepository.findById(id).orElse(null);
     }
 
-    // CREATE: Ajouter un nouveau compte
     @Path("/comptes")
     @POST
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -46,7 +39,6 @@ public class CompteRestJaxRSAPI {
         return compteRepository.save(compte);
     }
 
-    // UPDATE: Mettre à jour un compte existant
     @Path("/comptes/{id}")
     @PUT
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -62,7 +54,6 @@ public class CompteRestJaxRSAPI {
         return null;
     }
 
-    // DELETE: Supprimer un compte
     @Path("/comptes/{id}")
     @DELETE
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

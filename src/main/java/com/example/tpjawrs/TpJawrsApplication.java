@@ -10,16 +10,24 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.Date;
 
+
+
 @SpringBootApplication
 public class TpJawrsApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(TpJawrsApplication.class, args);
     }
     @Bean
     CommandLineRunner start(CompteRepository compteRepository) {
         return args -> {
-            compteRepository.save(new Compte(null, 5000.0, new Date(), TypeCompte.COURANT));
-            compteRepository.save(new Compte(null, 10000.0, new Date(), TypeCompte.EPARGNE));
-            compteRepository.findAll().forEach(System.out::println);
-        }; }}
+            compteRepository.save(new Compte(null, Math.random()*9000, new Date(), TypeCompte.EPARGNE));
+            compteRepository.save(new Compte(null, Math.random()*9000, new Date(), TypeCompte.COURANT));
+            compteRepository.save(new Compte(null, Math.random()*9000, new Date(), TypeCompte.EPARGNE));
+            compteRepository.findAll().forEach(compte -> {
+                System.out.println(compte.toString());
+            });
+
+
+        };
+    }
+}
